@@ -140,9 +140,6 @@ function join() {
 join();
 process.stdin.on('data', function(text) {
     var t = util.inspect(text).replace("'", '').split('').reverse().join('');
-
-    console.log(t);
-    console.log(typeof(t))
     send({
         cmd: 'chat',
         text: t.replace(/\'n\\r\\/, '').split('').reverse().join('')

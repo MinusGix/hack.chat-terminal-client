@@ -2,6 +2,8 @@
 Lets you connect to hack.chat with the terminal.
 You can connect to toastychat, but it does not have specific support for things from toastychat.
 
+![screenshot](http://i.imgur.com/m3KbyM1.png)
+
 ## To use:
 Do:  
 `npm install`  

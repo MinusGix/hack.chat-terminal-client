@@ -13,7 +13,7 @@
         "modsColor": "green",
         "modsBackgroundColor": "default",
         "normalColor": "white",
-        "normalBackgroundColor": "cyan",
+        "normalBackgroundColor": "default",
         "serverBackgroundColor": "green",
         "serverColor": "black",
         "warningBackgroundColor": "yellow",
