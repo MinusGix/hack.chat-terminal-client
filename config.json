@@ -1,0 +1,24 @@
+{
+    "username": "Testing",
+    "password": "pass",
+    "channel": "programming",
+    "address": "wss://hack.chat/chat-ws",
+    "settings": {
+        "displayUsernamesEqualSized": true,
+        "separateUserAndPass": false,
+        "displayNonTripsAs": "NOTRIP",
+        "haveColors": true,
+        "adminsColor": "red",
+        "adminsBackgroundColor": "default",
+        "modsColor": "green",
+        "modsBackgroundColor": "default",
+        "normalColor": "white",
+        "normalBackgroundColor": "cyan",
+        "serverBackgroundColor": "green",
+        "serverColor": "black",
+        "warningBackgroundColor": "yellow",
+        "warningColor": "default",
+        "youColor": "yellow",
+        "youBackgroundColor": "black"
+    }
+}
