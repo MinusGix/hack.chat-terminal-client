@@ -4,6 +4,11 @@
     "channel": "programming",
     "address": "wss://hack.chat/chat-ws",
     "settings": {
+        "youAreAdmin": false,
+        "youAreMod": true,
+        "commandsEnabled": true,
+        "commandsBeginWith": "/",
+        "allowBanning": false,
         "displayUsernamesEqualSized": true,
         "separateUserAndPass": false,
         "displayNonTripsAs": "NOTRIP",

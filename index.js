@@ -138,10 +138,65 @@ function join() {
     });
 }
 join();
-process.stdin.on('data', function(text) {
-    var t = util.inspect(text).replace("'", '').split('').reverse().join('');
+var cmds = {};
+
+function addCommand(name, rank, func) {
+    if (typeof(rank) === 'function') {
+        func = rank;
+        rank = 'any';
+    }
+    cmds[config.settings.commandsBeginWith + name] = { func, rank, name };
+}
+
+function runCommand(text) {
+    if (!config.settings.commandsEnabled) {
+        return true;
+    }
+    var args = text.split(' ').map((a) => a.trim()),
+        cmd = args[0].toLowerCase();
+    if (cmds.hasOwnProperty(cmd)) {
+        if ((cmds[cmd].rank === 'admin' && config.settings.youAreAdmin) || (cmds[cmd].rank === 'mod' && (config.settings.youAreMod || config.settings.youAreAdmin)) || cmds[cmd].rank === 'any') {
+            return cmds[cmd].func({
+                params: args
+            });
+        }
+    }
+    return true;
+}
+addCommand('test', (args) => {
+    console.log(args);
+});
+addCommand('help', () => {
+    var text = 'Commands:\n',
+        arr = [];
+    for (let cmd in cmds) {
+        if ((cmds[cmd].rank === 'admin' && config.settings.youAreAdmin) || (cmds[cmd].rank === 'mod' && (config.settings.youAreMod || config.settings.youAreAdmin)) || cmds[cmd].rank === 'any') {
+            arr.push(cmd);
+        }
+    }
+    console.log(text + arr.join(', ') + '.');
+});
+addCommand('ban', 'mod', (args) => {
+    if (config.settings.allowBanning) {
+        send({
+            cmd: 'ban',
+            nick: args[1]
+        });
+    } else {
+        console.log('banning is disabled.');
+    }
+});
+addCommand('broadcast', 'admin', (args) => {
     send({
-        cmd: 'chat',
-        text: t.replace(/\'n\\r\\/, '').split('').reverse().join('')
+        cmd: 'broadcast',
+        text: args.slice(1).join(' ')
     });
+});
+process.stdin.on('data', function(text) {
+    if (runCommand(text)) {
+        send({
+            cmd: 'chat',
+            text: text.replace(/\r/g, '')
+        });
+    }
 });
