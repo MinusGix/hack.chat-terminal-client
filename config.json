@@ -5,7 +5,7 @@
     "address": "wss://hack.chat/chat-ws",
     "settings": {
         "youAreAdmin": false,
-        "youAreMod": true,
+        "youAreMod": false,
         "commandsEnabled": true,
         "commandsBeginWith": "/",
         "allowBanning": false,
