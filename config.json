@@ -22,7 +22,7 @@
         "serverBackgroundColor": "green",
         "serverColor": "black",
         "warningBackgroundColor": "yellow",
-        "warningColor": "default",
+        "warningColor": "red",
         "youColor": "yellow",
         "youBackgroundColor": "black"
     }
