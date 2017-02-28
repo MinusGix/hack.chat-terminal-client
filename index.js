@@ -180,7 +180,7 @@ addCommand('ban', 'mod', (args) => {
     if (config.settings.allowBanning) {
         send({
             cmd: 'ban',
-            nick: args[1]
+            nick: args.params[1]
         });
     } else {
         console.log('banning is disabled.');
