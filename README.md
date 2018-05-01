@@ -5,15 +5,17 @@ You can connect to toastychat, but it does not have specific support for things 
 ![screenshot](http://i.imgur.com/m3KbyM1.png)
 
 ## To use:
-Do:  
-`npm install`  
-then open up the file config.json and set your username, password, channel, and server address.  
+1. Install:
+    ```
+    git clone https://github.com/MinusGix/hack.chat-terminal-client
+    cd hack.chat-terminal-client
+    npm install
+    ```
+1. Open up the file `config.json` and set your username, password, channel, and server address.  
 For the channel '?programming' would be 'programing'  
 Hack.Chats Server Address: "wss://hack.chat/chat-ws"  
-  
-To run do:  
-`node index.js`  
-  
+1. Run: `node index.js`
+
 ## Settings:
 ### Colors:
 Colors come from: [chalk](https://www.npmjs.com/package/chalk)  
@@ -28,7 +30,7 @@ You can set colors for the text, and backgrounds of these:
 * yourself
 * the server
 * warnings  
-  
+
 ### Others:
 * displayUsernamesEqualSized - This makes so all usernames will be the same size, since there is a max of 24 characters in a name.
 * separateUserAndPass        - For if you are connecting to toastychat.
