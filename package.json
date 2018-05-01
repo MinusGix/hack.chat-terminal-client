@@ -5,6 +5,7 @@
     "main": "index.js",
     "scripts": {},
     "author": "MinusGix",
+    "repository": "https://github.com/MinusGix/hack.chat-terminal-client",
     "license": "ISC",
     "dependencies": {
         "chalk": "^1.1.3",
