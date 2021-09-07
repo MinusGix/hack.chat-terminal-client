@@ -9,6 +9,7 @@
         "commandsEnabled": true,
         "commandsBeginWith": "/",
         "allowBanning": false,
+        "allowKicking": false,
         "displayUsernamesEqualSized": true,
         "separateUserAndPass": false,
         "displayNonTripsAs": "NOTRIP",

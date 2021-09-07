@@ -29,21 +29,21 @@ var WebSocket = require('ws'),
                         text = chalk[config.settings.modsColor](text);
                     }
                     if (config.settings.modsBackgroundColor !== 'default') {
-                        text = chalk[`bg${config.settings.modsBackgroundColor[0].toUpperCase()+config.settings.modsBackgroundColor.slice(1, config.settings.modsBackgroundColor.length)}`](text);
+                        text = chalk[`bg${config.settings.modsBackgroundColor[0].toUpperCase() + config.settings.modsBackgroundColor.slice(1, config.settings.modsBackgroundColor.length)}`](text);
                     }
                 } else if (args.admin && config.settings.adminsColor !== 'default') {
                     if (config.settings.adminsColor !== 'default') {
                         text = chalk[config.settings.adminsColor](text);
                     }
                     if (config.settings.adminsBackgroundColor !== 'default') {
-                        text = chalk[`bg${config.settings.adminsBackgroundColor[0].toUpperCase()+config.settings.adminsBackgroundColor.slice(1, config.settings.adminsBackgroundColor.length)}`](text);
+                        text = chalk[`bg${config.settings.adminsBackgroundColor[0].toUpperCase() + config.settings.adminsBackgroundColor.slice(1, config.settings.adminsBackgroundColor.length)}`](text);
                     }
                 } else if (args.nick === config.username) {
                     if (config.settings.youColor !== 'default') {
                         text = chalk[config.settings.youColor](text);
                     }
                     if (config.settings.youBackgroundColor !== 'default') {
-                        text = chalk[`bg${config.settings.youBackgroundColor[0].toUpperCase()+config.settings.youBackgroundColor.slice(1, config.settings.youBackgroundColor.length)}`](text);
+                        text = chalk[`bg${config.settings.youBackgroundColor[0].toUpperCase() + config.settings.youBackgroundColor.slice(1, config.settings.youBackgroundColor.length)}`](text);
                     }
 
                 } else {
@@ -51,17 +51,17 @@ var WebSocket = require('ws'),
                         text = chalk[config.settings.normalColor](text);
                     }
                     if (config.settings.normalBackgroundColor !== 'default') {
-                        text = chalk[`bg${config.settings.normalBackgroundColor[0].toUpperCase()+config.settings.normalBackgroundColor.slice(1, config.settings.normalBackgroundColor.length)}`](text);
+                        text = chalk[`bg${config.settings.normalBackgroundColor[0].toUpperCase() + config.settings.normalBackgroundColor.slice(1, config.settings.normalBackgroundColor.length)}`](text);
                     }
                 }
             }
             console.log(text);
         },
         warn: (args) => {
-            var text = `<${'|WARNING|'.repeat((maxLength-2)/9)}> ${args.text}`
+            var text = `<${'|WARNING|'.repeat((maxLength - 2) / 9)}> ${args.text}`
             if (config.settings.haveColors) {
                 if (config.settings.warningBackgroundColor !== 'default') {
-                    text = chalk[`bg${config.settings.warningBackgroundColor[0].toUpperCase()+config.settings.warningBackgroundColor.slice(1, config.settings.warningBackgroundColor.length)}`](text);
+                    text = chalk[`bg${config.settings.warningBackgroundColor[0].toUpperCase() + config.settings.warningBackgroundColor.slice(1, config.settings.warningBackgroundColor.length)}`](text);
                 }
                 if (config.settings.warningColor !== 'default') {
                     text = chalk[config.settings.warningColor](text);
@@ -70,10 +70,35 @@ var WebSocket = require('ws'),
             console.log(text);
         },
         info: (args) => {
-            var text = `<${'|SERVER|'.repeat((maxLength-2)/8)}> ${args.text}`;
+            var text = `<${'|SERVER|'.repeat((maxLength - 2) / 8)}> ${args.text}`;
             if (config.settings.haveColors) {
                 if (config.settings.serverBackgroundColor !== 'default') {
-                    text = chalk[`bg${config.settings.serverBackgroundColor[0].toUpperCase()+config.settings.serverBackgroundColor.slice(1, config.settings.serverBackgroundColor.length)}`](text);
+                    text = chalk[`bg${config.settings.serverBackgroundColor[0].toUpperCase() + config.settings.serverBackgroundColor.slice(1, config.settings.serverBackgroundColor.length)}`](text);
+                }
+                if (config.settings.serverColor !== 'default') {
+                    text = chalk[config.settings.serverColor](text);
+                }
+            }
+            console.log(text);
+        },
+        emote: (args) => {
+            // TODO: Emote customization separate from server messages
+            var text = `<${'|SERVER|'.repeat((maxLength - 2) / 8)}> ${args.text}`;
+            if (config.settings.haveColors) {
+                if (config.settings.serverBackgroundColor !== 'default') {
+                    text = chalk[`bg${config.settings.serverBackgroundColor[0].toUpperCase() + config.settings.serverBackgroundColor.slice(1, config.settings.serverBackgroundColor.length)}`](text);
+                }
+                if (config.settings.serverColor !== 'default') {
+                    text = chalk[config.settings.serverColor](text);
+                }
+            }
+            console.log(text);
+        },
+        captcha: (args) => {
+            var text = `<${'|SERVER|'.repeat((maxLength - 2) / 8)}> CAPTCHA:\n${args.text}`;
+            if (config.settings.haveColors) {
+                if (config.settings.serverBackgroundColor !== 'default') {
+                    text = chalk[`bg${config.settings.serverBackgroundColor[0].toUpperCase() + config.settings.serverBackgroundColor.slice(1, config.settings.serverBackgroundColor.length)}`](text);
                 }
                 if (config.settings.serverColor !== 'default') {
                     text = chalk[config.settings.serverColor](text);
@@ -101,6 +126,9 @@ var WebSocket = require('ws'),
             COMMANDS.info({
                 text: `${args.nick} left channel.`
             });
+        },
+        updateUser: (args) => {
+            // We don't care
         }
     };
 
@@ -134,69 +162,20 @@ function join() {
     });
     ws.on('message', (data, flags) => {
         var args = JSON.parse(data);
-        COMMANDS[args.cmd](args);
+        let cmd = args.cmd;
+        if (COMMANDS.hasOwnProperty(cmd)) {
+            COMMANDS[cmd](args);
+        } else {
+            console.log(`'${cmd}' is not a valid cmd in COMMANDS`);
+        }
     });
 }
 join();
-var cmds = {};
 
-function addCommand(name, rank, func) {
-    if (typeof(rank) === 'function') {
-        func = rank;
-        rank = 'any';
-    }
-    cmds[config.settings.commandsBeginWith + name] = { func, rank, name };
-}
 
-function runCommand(text) {
-    if (!config.settings.commandsEnabled) {
-        return true;
-    }
-    var args = text.split(' ').map((a) => a.trim()),
-        cmd = args[0].toLowerCase();
-    if (cmds.hasOwnProperty(cmd)) {
-        if ((cmds[cmd].rank === 'admin' && config.settings.youAreAdmin) || (cmds[cmd].rank === 'mod' && (config.settings.youAreMod || config.settings.youAreAdmin)) || cmds[cmd].rank === 'any') {
-            return cmds[cmd].func({
-                params: args
-            });
-        }
-    }
-    return true;
-}
-addCommand('test', (args) => {
-    console.log(args);
-});
-addCommand('help', () => {
-    var text = 'Commands:\n',
-        arr = [];
-    for (let cmd in cmds) {
-        if ((cmds[cmd].rank === 'admin' && config.settings.youAreAdmin) || (cmds[cmd].rank === 'mod' && (config.settings.youAreMod || config.settings.youAreAdmin)) || cmds[cmd].rank === 'any') {
-            arr.push(cmd);
-        }
-    }
-    console.log(text + arr.join(', ') + '.');
-});
-addCommand('ban', 'mod', (args) => {
-    if (config.settings.allowBanning) {
-        send({
-            cmd: 'ban',
-            nick: args.params[1]
-        });
-    } else {
-        console.log('banning is disabled.');
-    }
-});
-addCommand('broadcast', 'admin', (args) => {
+process.stdin.on('data', function (text) {
     send({
-        cmd: 'broadcast',
-        text: args.slice(1).join(' ')
+        cmd: 'chat',
+        text: text.replace(/\r/g, '')
     });
-});
-process.stdin.on('data', function(text) {
-    if (runCommand(text)) {
-        send({
-            cmd: 'chat',
-            text: text.replace(/\r/g, '')
-        });
-    }
 });
