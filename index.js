@@ -158,7 +158,7 @@ function join() {
                 text: "Disconnected. Attempting to reconnect..."
             });
         }
-        window.setTimeout(() => join());
+        setTimeout(() => join());
     });
     ws.on('message', (data, flags) => {
         var args = JSON.parse(data);
