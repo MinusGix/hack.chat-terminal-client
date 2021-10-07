@@ -174,8 +174,13 @@ join();
 
 
 process.stdin.on('data', function (text) {
-    send({
-        cmd: 'chat',
-        text: text.replace(/\r/g, '')
-    });
+    if (text.startsWith('/list')) {
+        console.log( `<${'|CLIENT|'.repeat((maxLength - 2) / 8)}> Online Users: ${onlineUsers.toString().replace(',', ', ')}`)
+    }
+    else {
+        send({
+            cmd: 'chat',
+            text: text.replace(/\r/g, '')
+        });
+    }
 });
