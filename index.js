@@ -175,7 +175,7 @@ join();
 
 process.stdin.on('data', function (text) {
     if (text.startsWith('/list')) {
-        console.log( `<${'|CLIENT|'.repeat((maxLength - 2) / 8)}> Online Users: ${onlineUsers.toString().replace(',', ', ')}`)
+        console.log( `<${'|CLIENT|'.repeat((maxLength - 2) / 8)}> Online Users: ${onlineUsers.toString().replaceAll(',', ', ')}`)
     }
     else {
         send({
